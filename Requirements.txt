@@ -1,0 +1,7 @@
+#install python
+
+#install flask using cammand prompt
+cmd>pip install flask
+
+#run flask app using cmd || run file 'app.py'
+cmd>py app.py

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Upload</title>
+    <style>
+        .divide{
+            display: grid;
+            grid-template-columns: auto auto;
+            width: 100%;
+        }
+        img{
+            width: 95%;
+            
+        }
+        .divide>div{
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Upload Image, Text, and Date</h1>
+    <form id="uploadForm" method="post" enctype="multipart/form-data">
+        <input type="file" id="imageInput" name="imageInput">
+        <br>
+        <input type="text" id="textInput" name="textInput" placeholder="Enter Trade">
+        <br>
+        <input type="date" id="dateInput" name="dateInput">
+        <br>
+        
+        <input type="button" value="Upload" onclick="handleUpload()">
+    </form>
+    <h2 style="background-color:orange;text-align:center;">Uploaded Data</h2>
+    <div id="displayData" class="divide"></div>
+    <script>
+        //execute handle
+        handleUpload();
+
+
+        function handleUpload() {
+            const form = document.getElementById("uploadForm");
+            const formData = new FormData(form);
+
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const displayDiv = document.getElementById("displayData");
+                displayDiv.innerHTML = '<p>' + data.message + '</p>';
+                loadData();
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function loadData() {
+            fetch('/data')
+            .then(response => response.json())
+            .then(data => {
+                const displayDiv = document.getElementById("displayData");
+                displayDiv.innerHTML += '<div></div>';
+                data.forEach(item => {
+                    displayDiv.innerHTML += `<div>
+                        <p><b>Date:</b> ${item.date}</p>
+                        <!--<p><b>Image Filename:</b> ${item.filename}</p>-->
+                        <!--<p><b>Image Type:</b> ${item.type}</p>-->
+                        <!--<p><b>Image Size:</b> ${item.size} bytes</p>-->
+                        <a href="/image/${item.filename}" target="_blank"><img src="/image/${item.filename}" width="300" alt="Uploaded Image"></a>
+                        <p><b>Trade:</b> ${item.text}</p>
+                        </div>
+                    `;
+                });
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
