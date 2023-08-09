@@ -27,10 +27,12 @@ def upload():
 
     text = request.form.get('textInput', '')
     date = request.form.get('dateInput', '')
+    day  = request.form.get('textDay','')
 
     image_metadata = {
         'text': text,
         'date': date,
+        'day':day,
         'filename': filename,
         'type': file.content_type,
         'size': os.path.getsize(os.path.join(app.config['UPLOAD_FOLDER'], filename)),

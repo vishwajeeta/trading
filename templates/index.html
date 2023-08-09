@@ -26,6 +26,7 @@
         <br>
         <input type="date" id="dateInput" name="dateInput">
         <br>
+        <input type="text" name="textDay" placeholder="Enter Day"> <br>
         
         <input type="button" value="Upload" onclick="handleUpload()">
     </form>
@@ -62,13 +63,23 @@
                 data.forEach(item => {
                     displayDiv.innerHTML += `<div>
                         <p><b>Date:</b> ${item.date}</p>
+                        <p><b>Day:</b> ${item.day}</p>
                         <!--<p><b>Image Filename:</b> ${item.filename}</p>-->
                         <!--<p><b>Image Type:</b> ${item.type}</p>-->
                         <!--<p><b>Image Size:</b> ${item.size} bytes</p>-->
                         <a href="/image/${item.filename}" target="_blank"><img src="/image/${item.filename}" width="300" alt="Uploaded Image"></a>
-                        <p><b>Trade:</b> ${item.text}</p>
+                        <p ><b >Trade:</b><strong id="trade"> ${item.text}</strong></p>
                         </div>
-                    `;
+                        `;
+                        if(item.text <=0)
+                        {
+                            document.getElementById('trade').style="color:red";
+                            
+                        }
+                        else{
+                            document.getElementById('trade').style="color:green";
+                            
+                        }
                 });
             })
             .catch(error => console.error('Error:', error));
